@@ -33,34 +33,15 @@ in
       default = "proxy-with-credential-manager";
       description = "systemd `StateDirectory` (under `/var/lib`) where the credential database is stored.";
     };
-
-    user = lib.mkOption {
-      type = lib.types.str;
-      default = "proxy-with-credential-manager";
-      description = "User account under which the service runs.";
-    };
-
-    group = lib.mkOption {
-      type = lib.types.str;
-      default = "proxy-with-credential-manager";
-      description = "Group under which the service runs.";
-    };
   };
 
   config = lib.mkIf cfg.enable {
-    users.users.${cfg.user} = {
-      isSystemUser = true;
-      group = cfg.group;
-    };
-    users.groups.${cfg.group} = { };
-
     systemd.services.proxy-with-credential-manager = {
       description = "ProxyWithCredentialManager";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
-        User = cfg.user;
-        Group = cfg.group;
+        DynamicUser = true;
         StateDirectory = cfg.stateDirectory;
         ExecStart = lib.concatStringsSep " " [
           (lib.getExe cfg.package)

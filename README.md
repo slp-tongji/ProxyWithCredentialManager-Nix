@@ -59,9 +59,8 @@ available as `nixosModules.default`):
 }
 ```
 
-The module runs the service as a systemd unit (a dedicated
-`proxy-with-credential-manager` system user, with a `StateDirectory` for the
-credential database).
+The module runs the service as a systemd unit with a dynamic system user and a
+`StateDirectory` for the credential database.
 
 Options under `services.proxy-with-credential-manager`:
 
@@ -72,8 +71,6 @@ Options under `services.proxy-with-credential-manager`:
 | `proxyPort` | port | (required) | Port the proxy server listens on (loopback) |
 | `credentialManagerPort` | port | (required) | Port the credential manager API listens on (loopback) |
 | `stateDirectory` | str | `"proxy-with-credential-manager"` | systemd `StateDirectory` (under `/var/lib`) holding the credential database |
-| `user` | str | `"proxy-with-credential-manager"` | User account the service runs under |
-| `group` | str | `"proxy-with-credential-manager"` | Group the service runs under |
 
 ---
 
