@@ -69,9 +69,9 @@ Options under `services.proxy-with-credential-manager`:
 | --- | --- | --- | --- |
 | `enable` | bool | `false` | Whether to enable the service |
 | `package` | package | this flake's package | The package to install |
-| `proxyPort` | port | `8080` | Port the proxy server listens on (loopback) |
-| `credentialManagerPort` | port | `8081` | Port the credential manager API listens on (loopback) |
-| `credentialDatabase` | path | `/var/lib/proxy-with-credential-manager/credentials.db` | Path to the credential database (LiteDB) |
+| `proxyPort` | port | (required) | Port the proxy server listens on (loopback) |
+| `credentialManagerPort` | port | (required) | Port the credential manager API listens on (loopback) |
+| `stateDirectory` | str | `"proxy-with-credential-manager"` | systemd `StateDirectory` (under `/var/lib`) holding the credential database |
 | `user` | str | `"proxy-with-credential-manager"` | User account the service runs under |
 | `group` | str | `"proxy-with-credential-manager"` | Group the service runs under |
 

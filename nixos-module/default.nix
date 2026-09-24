@@ -15,26 +15,23 @@ in
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.callPackage ../package { };
-      defaultText = lib.literalExpression "pkgs.callPackage ../package { }";
       description = "The ProxyWithCredentialManager package to use.";
     };
 
     proxyPort = lib.mkOption {
       type = lib.types.port;
-      default = 8080;
       description = "Port on which the proxy server listens (on loopback).";
     };
 
     credentialManagerPort = lib.mkOption {
       type = lib.types.port;
-      default = 8081;
       description = "Port on which the credential manager API listens (on loopback).";
     };
 
-    credentialDatabase = lib.mkOption {
-      type = lib.types.path;
-      default = "/var/lib/proxy-with-credential-manager/credentials.db";
-      description = "Path to the credential database (LiteDB).";
+    stateDirectory = lib.mkOption {
+      type = lib.types.str;
+      default = "proxy-with-credential-manager";
+      description = "systemd `StateDirectory` (under `/var/lib`) where the credential database is stored.";
     };
 
     user = lib.mkOption {
@@ -64,7 +61,7 @@ in
       serviceConfig = {
         User = cfg.user;
         Group = cfg.group;
-        StateDirectory = "proxy-with-credential-manager";
+        StateDirectory = cfg.stateDirectory;
         ExecStart = lib.concatStringsSep " " [
           (lib.getExe cfg.package)
           "run"
@@ -73,7 +70,7 @@ in
           "--credential-manager-port"
           (toString cfg.credentialManagerPort)
           "--credential-database"
-          (toString cfg.credentialDatabase)
+          "/var/lib/${cfg.stateDirectory}/credentials.db"
         ];
         Restart = "on-failure";
       };
