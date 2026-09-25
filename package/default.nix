@@ -7,13 +7,13 @@
 
 buildDotnetModule (finalAttrs: {
   pname = "proxy-with-credential-manager";
-  version = "0.0.2";
+  version = "0.0.3";
 
   src = fetchFromGitHub {
     owner = "slp-tongji";
     repo = "ProxyWithCredentialManager";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-DSAK2HmE++fYJoA0bB6t/c3S9kXlsHl0wLsPBx0HORk=";
+    hash = "sha256-EQvJpGmzpS1KJUvYbHZ65jDK5z8rInncBofaXH0cSgQ=";
   };
 
   projectFile = "src/ProxyWithCredentialManager/ProxyWithCredentialManager.csproj";
